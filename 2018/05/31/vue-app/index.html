@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <link rel="canonical" href="http://zhooson.cn//2018/05/31/vue-app/">
+    
+    
+    <title>H5(vue)页面中尝试调起APP | 钱端攻城狮 | 学无止境</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="vue">
+    <meta name="description" content="现在好多的app应用都有对应的h5页面，那么h5和app直接是如何交互的呢？如图：                                                                                             这里写图片描述              这一个按钮就是通向app的传送通道，那么这个功能是如何实现的呢？本文以vue的示例来讲解">
+<meta name="keywords" content="vue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="H5(vue)页面中尝试调起APP">
+<meta property="og:url" content="http://alex.zhooson.cn/2018/05/31/vue-app/index.html">
+<meta property="og:site_name" content="钱端攻城狮">
+<meta property="og:description" content="现在好多的app应用都有对应的h5页面，那么h5和app直接是如何交互的呢？如图：                                                                                             这里写图片描述              这一个按钮就是通向app的传送通道，那么这个功能是如何实现的呢？本文以vue的示例来讲解">
+<meta property="og:locale" content="zh-CH">
+<meta property="og:image" content="http://alex.zhooson.cn/2018/05/31/vue-app/1.jpeg">
+<meta property="og:image" content="http://alex.zhooson.cn/2018/05/31/vue-app/2.jpeg">
+<meta property="og:image" content="http://img.blog.csdn.net/20171229111911221?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvWmhvb3Nvbg==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:updated_time" content="2018-07-31T02:06:55.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="H5(vue)页面中尝试调起APP">
+<meta name="twitter:description" content="现在好多的app应用都有对应的h5页面，那么h5和app直接是如何交互的呢？如图：                                                                                             这里写图片描述              这一个按钮就是通向app的传送通道，那么这个功能是如何实现的呢？本文以vue的示例来讲解">
+<meta name="twitter:image" content="http://alex.zhooson.cn/2018/05/31/vue-app/1.jpeg">
+    
+        <link rel="alternate" type="application/atom+xml" title="钱端攻城狮" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">张沪生</h5>
+          <a href="mailto:zhs1320@163.com" title="zhs1320@163.com" class="mail">zhs1320@163.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/liuxingzhijian1320" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://blog.csdn.net/zhooson?t=1" target="_blank" >
+                <i class="icon icon-lg icon-html5"></i>
+                Html 5
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">H5(vue)页面中尝试调起APP</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">H5(vue)页面中尝试调起APP</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-05-31T10:26:33.000Z" itemprop="datePublished" class="page-time">
+  2018-05-31
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+
+<article id="post-vue-app"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">H5(vue)页面中尝试调起APP</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-05-31 18:26:33" datetime="2018-05-31T10:26:33.000Z"  itemprop="datePublished">2018-05-31</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>现在好多的app应用都有对应的h5页面，那么h5和app直接是如何交互的呢？<br>如图：<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/05/31/vue-app/1.jpeg" alt="这里写图片描述" title="">
+                </div>
+                <div class="image-caption">这里写图片描述</div>
+            </figure></p>
+<p>这一个按钮就是通向app的传送通道，那么这个功能是如何实现的呢？<br>本文以vue的示例来讲解</p>
+<p>先看效果图：<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/05/31/vue-app/2.jpeg" alt="这里写图片描述" title="">
+                </div>
+                <div class="image-caption">这里写图片描述</div>
+            </figure></p>
+<p>现在首先创建一个vue页面，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class=&quot;H5ToApp&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;btn&quot;&gt;在app内部打开&lt;/div&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &apos;app&apos;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;&#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;&#125;,</span><br><span class="line">  mounted() &#123;&#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style lang=&quot;scss&quot; scoped&gt;</span><br><span class="line">.H5ToApp &#123;</span><br><span class="line">  height: 100vh;</span><br><span class="line">  width: 100%;</span><br><span class="line">  .btn &#123;</span><br><span class="line">    background-image: -webkit-linear-gradient(</span><br><span class="line">      180deg,</span><br><span class="line">      rgb(251, 17, 72) 0%,</span><br><span class="line">      rgb(253, 133, 80) 100%</span><br><span class="line">    );</span><br><span class="line">    width: 100%;</span><br><span class="line">    height: 1rem;</span><br><span class="line">    position: fixed;</span><br><span class="line">    bottom: 0;</span><br><span class="line">    left: 0;</span><br><span class="line">    right: 0;</span><br><span class="line">    color: #fff;</span><br><span class="line">    font-size: 0.3rem;</span><br><span class="line">    display: flex;</span><br><span class="line">    align-items: center;</span><br><span class="line">    justify-content: center;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+<p>本项目的目录结构：<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20171229111911221?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvWmhvb3Nvbg==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" title="">
+                </div>
+                <div class="image-caption">这里写图片描述</div>
+            </figure></p>
+<ul>
+<li><p>linkedme.min.js 的下载地址（<a href="https://static.lkme.cc/linkedme.min.js）" target="_blank" rel="noopener">https://static.lkme.cc/linkedme.min.js）</a></p>
+</li>
+<li><p>开始编写linkedme,js的文件</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">let linkedmePromise =</span><br><span class="line">    import (&apos;src/assets/vendor/linkedme.min.js&apos;)</span><br><span class="line">let linkedmeType = &quot;live&quot;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">let defaultData = &#123;&#125;;</span><br><span class="line">defaultData.type = linkedmeType; //表示现在使用线上模式,如果填写&quot;test&quot;, 表示测试模式.【可选】</span><br><span class="line">defaultData.feature = &quot;功能名称&quot;; // 自定义深度链接功能，多个用逗号分隔，【可选】</span><br><span class="line">defaultData.stage = &quot;阶段名称&quot;; // 自定义深度链接阶段，多个用逗号分隔，【可选】</span><br><span class="line">defaultData.channel = &quot;渠道名称&quot;; // 自定义深度链接渠道，多个用逗号分隔，【可选】</span><br><span class="line">defaultData.tags = &quot;标签名称&quot;; // 自定义深度链接标签，多个用逗号分隔，【可选】</span><br><span class="line">defaultData.ios_custom_url = &quot;&quot;; // 自定义iOS平台下App的下载地址，如果是AppStore的下载地址可以不用填写，【可选】</span><br><span class="line">defaultData.android_custom_url = &quot;http://a.app.qq.com/o/simple.jsp?pkgname=com.xxxxx.weddingvideo&quot;; // 自定义安卓平台下App的下载地址，【可选】</span><br><span class="line">// 下面是自定义深度链接参数，用户点击深度链接打开app之后，params参数将被带入app</span><br><span class="line">// 比如详情页面的参数，可以写进去，这样唤起app后可直接跳转到详情页【可选】</span><br><span class="line"></span><br><span class="line">export default async function(para) &#123;</span><br><span class="line">    await linkedmePromise</span><br><span class="line">    if (linkedme.LinkedME_KEY !== &quot;b5942bd492c086472413db07481c6a7ff&quot;) &#123;</span><br><span class="line">        linkedme.init(&quot;b5942bd492c086472413db07481c6a7ff&quot;, &#123; type: linkedmeType &#125;, null);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    para = para || &#123;&#125;</span><br><span class="line">    let str = &apos;&apos;;</span><br><span class="line">    for (let k in para) &#123;</span><br><span class="line">        str += `&quot;$&#123;k&#125;&quot;:&quot;$&#123;para[k]&#125;&quot;,`</span><br><span class="line">    &#125;</span><br><span class="line">    str = str.slice(0, -1)</span><br><span class="line">    let params = `&#123;$&#123;str&#125;&#125;`</span><br><span class="line"></span><br><span class="line">    // console.log(&apos;params&apos;,params)</span><br><span class="line"></span><br><span class="line">    return new Promise((resolve, reject) =&gt; &#123;</span><br><span class="line">        // console.log(&#123;</span><br><span class="line">        //   ...defaultData,</span><br><span class="line">        //   ...&#123;params: params&#125;,</span><br><span class="line">        // &#125;)</span><br><span class="line">        linkedme.link(&#123;</span><br><span class="line">            ...defaultData,</span><br><span class="line">            ... &#123; params: params &#125;,</span><br><span class="line">        &#125;, function(err, data) &#123;</span><br><span class="line">            if (err) &#123;</span><br><span class="line">                // 生成深度链接失败，返回错误对象err</span><br><span class="line">                console.log(err)</span><br><span class="line">                alert(err.message)</span><br><span class="line">                reject(err)</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                // console.log(data.url)</span><br><span class="line">                /*</span><br><span class="line">                 生成深度链接成功，深度链接可以通过data.url得到，</span><br><span class="line">                 将深度链接绑定到&lt;a&gt;标签，这样当用户点击这</span><br><span class="line">                 个深度链接，如果是在pc上，那么跳转到深度链接二维</span><br><span class="line">                 码页面，用户用手机扫描该二维码就会打开app；如果</span><br><span class="line">                 在移动端，深度链接直接会根据手机设备类型打开ios</span><br><span class="line">                 或者安卓app</span><br><span class="line">                 */</span><br><span class="line">                // console.log(&apos;data&apos;,data)</span><br><span class="line">                resolve(data)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, false);</span><br><span class="line"></span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对应的组件中需要修改以下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class=&quot;H5ToApp&quot;&gt;</span><br><span class="line">	  &lt;!--需要使用a标签--&gt;</span><br><span class="line">    &lt;a class=&quot;btn&quot; :href=&quot;href&quot;&gt;在app内部打开&lt;/a&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">//脚手架配置了alias</span><br><span class="line">import linkedmeLink from &apos;src/assets/script/linkedme.js&apos;;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &apos;app&apos;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      href: &apos;&apos;,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;&#125;,</span><br><span class="line">  mounted() &#123;</span><br><span class="line">    //detailid,view 这个名字找app要的</span><br><span class="line">    linkedmeLink(&#123;</span><br><span class="line">      // detailid: this.$route.params.id,</span><br><span class="line">      detailid: 4, //当前id</span><br><span class="line">      view: &apos;waredetail&apos;, //跳转app的名字</span><br><span class="line">    &#125;).then(res =&gt; &#123;</span><br><span class="line">      this.href = res.url;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>linkedme的文档</strong>（<a href="https://pagedoc.lkme.cc/js-sdk-download.html）" target="_blank" rel="noopener">https://pagedoc.lkme.cc/js-sdk-download.html）</a></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2018-07-31T02:06:55.000Z" itemprop="dateUpdated">2018-07-31 10:06:55</time>
+</span><br>
+
+
+        
+        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2018/05/31/vue-app/" target="_blank" rel="external">http://alex.zhooson.cn/2018/05/31/vue-app/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://alex.zhooson.cn">
+            <img src="/img/avatar.png" alt="张沪生">
+            张沪生
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/">vue</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://alex.zhooson.cn/2018/05/31/vue-app/&title=《H5(vue)页面中尝试调起APP》 — 钱端攻城狮&pic=http://alex.zhooson.cn/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://alex.zhooson.cn/2018/05/31/vue-app/&title=《H5(vue)页面中尝试调起APP》 — 钱端攻城狮&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://alex.zhooson.cn/2018/05/31/vue-app/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《H5(vue)页面中尝试调起APP》 — 钱端攻城狮&url=http://alex.zhooson.cn/2018/05/31/vue-app/&via=http://alex.zhooson.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://alex.zhooson.cn/2018/05/31/vue-app/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/06/12/react-this/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">react onClick 事件</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/05/31/qiniu/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">vue + qiniu(七牛) + axios 实现图片上传</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+<section class="comments" id="comments">
+    <!-- UY BEGIN -->
+    <div id="uyan_frame"></div>
+    <script src="http://v2.uyan.cc/code/uyan.js?uid=true"></script>
+    <!-- UY END -->
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.png">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>张沪生 &copy; 2015 - 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://alex.zhooson.cn/2018/05/31/vue-app/&title=《H5(vue)页面中尝试调起APP》 — 钱端攻城狮&pic=http://alex.zhooson.cn/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://alex.zhooson.cn/2018/05/31/vue-app/&title=《H5(vue)页面中尝试调起APP》 — 钱端攻城狮&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://alex.zhooson.cn/2018/05/31/vue-app/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《H5(vue)页面中尝试调起APP》 — 钱端攻城狮&url=http://alex.zhooson.cn/2018/05/31/vue-app/&via=http://alex.zhooson.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://alex.zhooson.cn/2018/05/31/vue-app/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAABwElEQVR42u3aS46FMAwFUfa/aXoBT0R17TgNUmWEBEoODCx/uC687p+1vvv7zNPz18SSK1dum3sv19MB67v8FG6QK1fuee7TAetrvs9T+Iv3lCtX7ou5BMFTHLly5X6dy1/mFYFMrly5DS4pTtaBjAQ1vueGWk2uXLkNLu9Szl2P9HflypVb4t7h4kkMCXDx6XLlyj3C7TQy0lYIaamgc+XKlTvMrQ1HSThL2yLoleTKlXuQ2xmQkEYGp6OMTK5cucNc0txMG6md9gdvxcqVK/cMNz2SBK80/KX7yJUrd47Lix8ebnj4i4OgXLlyj3DTcQhnpcUPf16uXLlzXP4rVWfU2k935MqVe5JbK1dq49Vdn0CuXLlnuLws6R9cezHUuZErV+4ANz0sbXrWRizonxG5cuWOcXkouUsLBSnyseTKlXuQWxt47CqHgh3kypU7zO0HIzJcqT0pV67c/+LWWpy1w3hRxNu4cuXKneOmY87OT1oktWolOnLlyt3KJYlLPzGqhTy5cuV+hctLGh7IUNokV67cj3DTfdJwhiY/cuXKHeCS4qdT5AQguXLlvoBbG3zWhi68UbKhvytXrtwK9w8uolLBYXj59QAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
